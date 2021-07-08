@@ -1,0 +1,22 @@
+{
+  "name": "dgi_business_hub",
+  "version": "1.0.0",
+  "description": "This is the mobile application of Dgi Business Hub",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://niravpansuriya:19j1DPyTgo6GdRN9CFzeJntkSmJwJshPH6@github.com/hectabit/dgi_business_hub.git"
+  },
+  "keywords": [
+    "DgiLearning"
+  ],
+  "author": "Hectabit Inc.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hectabit/dgi_business_hub/issues"
+  },
+  "homepage": "https://github.com/hectabit/dgi_business_hub#readme"
+}
