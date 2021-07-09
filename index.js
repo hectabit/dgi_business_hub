@@ -21,6 +21,7 @@ const env = process.env.ENV || "";
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.get("/info", async (req, res) => {
 	return res.status(200).send({
@@ -33,6 +34,6 @@ app.get("/info", async (req, res) => {
 
 connectDB().then((res) => {
 	app.listen(port, () =>
-		console.log(chalk.green.inverse(`Server is running on port ${port}`))
+		console.log(chalk.blue.inverse(`Server is running on port ${port}`))
 	);
 });

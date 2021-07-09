@@ -121,7 +121,7 @@ const userSchema = mongoose.Schema({
  * Create a model
  */
 
-const UserModel = new mongoose.model("user", userSchema, "users");
+const User = new mongoose.model("user", userSchema, "users");
 
 //------------------------------------------------------------------------
 
@@ -129,4 +129,4 @@ const UserModel = new mongoose.model("user", userSchema, "users");
  * export modules
  */
 
-module.exports = UserModel;
+module.exports = User;

@@ -105,7 +105,7 @@ const merchantSchema = mongoose.Schema(
  * Create a model
  */
 
-const MerchantModel = new mongoose.model(
+const Merchant = new mongoose.model(
 	"merchant",
 	merchantSchema,
 	"merchants"
@@ -117,4 +117,4 @@ const MerchantModel = new mongoose.model(
  * export modules
  */
 
-module.exports = MerchantModel;
+module.exports = Merchant;
