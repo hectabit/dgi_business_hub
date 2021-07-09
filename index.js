@@ -5,6 +5,13 @@ const cors = require("cors");
 
 //------------------------------------------------------------------------
 
+const connectDB = require("./server/db/connect");
+
+//------------------------------------------------------------------------
+
+/**
+ * global variables
+ */
 const port = process.env.PORT || 80;
 const version = process.env.VERSION || "";
 const env = process.env.ENV || "";
@@ -16,15 +23,16 @@ const app = express();
 app.use(cors());
 
 app.get("/info", async (req, res) => {
-	return res
-		.status(200)
-		.send({
-			version,
-            env
-		});
+	return res.status(200).send({
+		version,
+		env,
+	});
 });
+
 //------------------------------------------------------------------------
 
-app.listen(port, () =>
-	console.log(chalk.green.inverse(`Server is running on port ${port}`))
-);
+connectDB().then((res) => {
+	app.listen(port, () =>
+		console.log(chalk.green.inverse(`Server is running on port ${port}`))
+	);
+});
