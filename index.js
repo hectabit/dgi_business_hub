@@ -19,10 +19,8 @@ app.get("/info", async (req, res) => {
 	return res
 		.status(200)
 		.send({
-			developers: "Hectabit Inc.",
-			website: "https://www.hectabit.com",
 			version,
-            env
+            en
 		});
 });
 //------------------------------------------------------------------------
