@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This is the mobile application of Dgi Business Hub",
   "main": "index.js",
+  "engines": {
+    "node": ">=14.17.5"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
