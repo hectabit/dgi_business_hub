@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 const resConfig = require("../configs/error");
 const Merchant = require("../models/Merchant");
-const User = require("../models/user");
+const User = require("../models/User");
 const cryptoUtils = require("../utils/crypto");
 
 //------------------------------------------------------------------------
