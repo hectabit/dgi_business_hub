@@ -33,16 +33,18 @@ app.use("/api/category", categoryRouters);
 app.use("/api/store", storeRouters);
 
 app.get("/info", async (req, res) => {
-	return res.status(200).send({
-		version,
-		env,
-	});
+  return res.status(200).send({
+    version,
+    env,
+  });
 });
 
 //------------------------------------------------------------------------
 
 connectDB().then((res) => {
-	app.listen(port, () =>
-		console.log(chalk.blue.inverse(`Server is running on port ${port}`))
-	);
+  app.listen(port, () =>
+    console.log(chalk.blue.inverse(`Server is running on port ${port}`))
+  );
 });
+
+//------------------------------------------------------------------------
