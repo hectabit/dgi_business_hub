@@ -4,7 +4,9 @@
   "description": "This is the mobile application of Dgi Business Hub",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "nodemon": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,19 @@
   "bugs": {
     "url": "https://github.com/hectabit/dgi_business_hub/issues"
   },
-  "homepage": "https://github.com/hectabit/dgi_business_hub#readme"
+  "homepage": "https://github.com/hectabit/dgi_business_hub#readme",
+  "dependencies": {
+    "aws-sdk": "^2.963.0",
+    "bcrypt": "^5.0.1",
+    "chalk": "^4.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "generate-password": "^1.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
