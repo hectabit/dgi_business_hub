@@ -37,6 +37,7 @@ app.get("/info", async (req, res) => {
   return res.status(200).send({
     version,
     env,
+    deployed: "Done",
   });
 });
 
