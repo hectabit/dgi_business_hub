@@ -27,7 +27,7 @@ const merchantSchema = mongoose.Schema(
 		category: {
 			type: mongoose.Types.ObjectId,
 			ref: "storeCategory",
-			required: true,
+			// required: true,
 		},
 		contactNumber: {
 			type: String,

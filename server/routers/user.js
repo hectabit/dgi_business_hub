@@ -12,7 +12,9 @@ const { isUserAdmin } = require("../middleware");
  * define routes
  */
 router.post("/login", loginUser);
-router.post("/create", isUserAdmin, createMerchant);
+router.post("/create", 
+// isUserAdmin,
+ createMerchant);
 
 //------------------------------------------------------------------------
 
