@@ -12,24 +12,27 @@ const mongoose = require("mongoose");
 
 // store schema
 const storeCategorySchema = mongoose.Schema(
-	{
-		name: {
-			type: String,
-			required: true,
-			unique: true,
-		},
-		updatedAt: {
-			type: Number,
-		},
-		createdAt: {
-			type: Number,
-		},
-	},
-	{
-		timestamps: {
-			currentTime: () => Date.now(),
-		},
-	}
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    imgPath: {
+      type: String,
+    },
+    updatedAt: {
+      type: Number,
+    },
+    createdAt: {
+      type: Number,
+    },
+  },
+  {
+    timestamps: {
+      currentTime: () => Date.now(),
+    },
+  }
 );
 
 //------------------------------------------------------------------------
