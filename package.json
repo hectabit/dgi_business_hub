@@ -34,7 +34,8 @@
     "generate-password": "^1.6.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
-    "nodemailer": "^6.6.3"
+    "nodemailer": "^6.6.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

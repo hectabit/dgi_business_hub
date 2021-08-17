@@ -3,22 +3,21 @@ const router = express.Router();
 
 //------------------------------------------------------------------------
 
-const { loginUser, createMerchant, scanCode,getGiftCards } = require("../apis/user");
-const { isUserAdmin, isUserThere } = require("../middleware");
+const { isUserAdmin } = require("../middleware");
+const { createDiscount,getDiscounts } = require("../apis/discount");
 
 //------------------------------------------------------------------------
 
 /**
  * define routes
  */
-router.get("/giftCards", isUserThere, getGiftCards);
-router.post("/login", loginUser);
+
 router.post(
-	"/create",
-	// isUserAdmin,
-	createMerchant
+	"/",
+	//  isUserAdmin,
+	createDiscount
 );
-router.post("/scan", isUserThere, scanCode);
+router.get("/", getDiscounts);
 
 //------------------------------------------------------------------------
 

@@ -22,6 +22,10 @@ const couponSchema = mongoose.Schema(
 			required: true,
 			default: 32,
 		},
+		redeemedCount:{
+			type: Number,
+			default: 0,
+		},
 		lastTime: [
 			{
 				username: String,

@@ -10,6 +10,7 @@ const userRouters = require("./server/routers/user");
 const adRouters = require("./server/routers/ad");
 const categoryRouters = require("./server/routers/category");
 const storeRouters = require("./server/routers/store");
+const discountRouters = require("./server/routers/discount");
 
 //------------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ app.use("/api/user", userRouters);
 app.use("/api/ad", adRouters);
 app.use("/api/category", categoryRouters);
 app.use("/api/store", storeRouters);
+app.use("/api/discount", discountRouters);
 
 app.get("/info", async (req, res) => {
   return res.status(200).send({

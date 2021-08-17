@@ -1,11 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const{ v4:uuidv4 } =require('uuid');
 
 //------------------------------------------------------------------------
 
 const resConfig = require("../configs/error");
 const Merchant = require("../models/Merchant");
 const User = require("../models/User");
+const GiftCard = require("../models/GiftCard");
+const Discount = require("../models/Discount");
 const cryptoUtils = require("../utils/crypto");
 const { sendMail } = require("../utils/mail");
 const Coupon = require("../models/Coupon");
@@ -159,7 +162,7 @@ const createMerchant = async (req, res) => {
 const scanCode = async (req, res) => {
 	try {
 		// get username and password
-		const { merchantUsername } = req.body;
+		const { merchantUsername,GiftCardCode } = req.body;
 		const username = req.custom.username;
 
 		if (!merchantUsername || !username) {
@@ -226,7 +229,7 @@ const scanCode = async (req, res) => {
 		let found = false;
 
 		for (const time of couponData.lastTime) {
-			if (time.username === merchant.username) {
+			if (time.username === merchantUsername) {
 				// update the time
 				time.time = Date.now();
 				found = true;
@@ -240,11 +243,37 @@ const scanCode = async (req, res) => {
 			});
 		}
 
+		if(GiftCardCode){
+			let isValidCode = await GiftCard.exists({"giftCards.code":GiftCardCode,"giftCards.used":false})
+			if(isValidCode){
+				let obj = await GiftCard.updateOne({user:username,'giftCards.code':GiftCardCode},{$set:{"giftCards.$.used":true}})
+			}else{
+				return res
+				.status(resConfig.NOT_FOUND.status)
+				.send({...resConfig.NOT_FOUND,code:'GiftCard Code is not valid or expired'});
+			}
+		}
 		// update the coupon data
 		await Coupon.findOneAndUpdate(
 			{ refNo: username },
-			{ $inc: { count: -1 }, $se	t: { lastTime: couponData.lastTime } }
+			{ $inc: { count: -1,redeemedCount: 1 }, $set: { lastTime: couponData.lastTime } }
 		);
+		let transaction = await Coupon.findOne(
+			{ refNo: username }
+		).lean();
+
+		let discountObjs = await Discount.find({expireAt:{$gt:Date.now()},noOfScan:transaction.redeemedCount}).lean()
+		if(discountObjs.length){
+			let discounts =  discountObjs.map(e=>({discount:e._id,used:false,code:uuidv4()}));
+			let giftCardsExist = await GiftCard.exists({user:username});
+			if(!giftCardsExist){
+				let giftCard = new GiftCard({user:username,giftCards:discounts})
+				await giftCard.save()
+			}else{
+				await GiftCard.findOneAndUpdate({user:username},{$push:{giftCards:{$each:discounts}}})
+			}
+		}
+
 
 		// create a scan transaction
 		const SCANTRANSACTION = new ScanTransaction({
@@ -262,7 +291,22 @@ const scanCode = async (req, res) => {
 			.send(resConfig.SERVER_ERROR);
 	}
 };
+const getGiftCards = async(req,res)=>{
+	try {
+		const username = req.custom.username;
+		let resData = await GiftCard.find({user:username}).populate("giftCards.discount","-_id -__v -total -createdAt -updatedAt").select("-_id -__v -createdAt -updatedAt").lean()
+		const resPayload = { ...resConfig.SUCCESS };
+		resPayload.giftCards = resData;
 
+		return res.status(resConfig.SUCCESS.status).send(resPayload);
+
+	} catch (error) {
+		console.log("error in getGiftCard", error);
+		return res
+			.status(resConfig.SERVER_ERROR.status)
+			.send(resConfig.SERVER_ERROR);
+	}
+}
 //------------------------------------------------------------------------
 
-module.exports = { loginUser, createMerchant, scanCode };
+module.exports = { loginUser, createMerchant, scanCode,getGiftCards };
