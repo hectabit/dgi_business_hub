@@ -4,7 +4,11 @@ const router = express.Router();
 //------------------------------------------------------------------------
 
 const { isUserAdmin } = require("../middleware");
-const { createDiscount,getDiscounts } = require("../apis/discount");
+const {
+	createDiscount,
+	getDiscounts,
+	deleteDiscount,
+} = require("../apis/discount");
 
 //------------------------------------------------------------------------
 
@@ -18,6 +22,7 @@ router.post(
 	createDiscount
 );
 router.get("/", getDiscounts);
+router.delete("/", deleteDiscount);
 
 //------------------------------------------------------------------------
 

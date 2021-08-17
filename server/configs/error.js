@@ -27,7 +27,7 @@ module.exports = {
 	},
 
 	API_KEY_NOT_FOUND: {
-		status: "404",
+		status: 404,
 		code: "APP_KEY and APP_SECRET not found",
 	},
 };
