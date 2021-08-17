@@ -45,6 +45,7 @@ const merchantSchema = mongoose.Schema(
 			type: String,
 			required: true,
 			index: true,
+			unique: true
 		},
 		businessName: {
 			type: String,
@@ -92,6 +93,11 @@ const merchantSchema = mongoose.Schema(
 		firstTime: {
 			type: Boolean,
 			default: true,
+			enum: [true, false],
+		},
+		isApproved: {
+			type: Boolean,
+			default: false,
 			enum: [true, false],
 		},
 		updatedAt: {

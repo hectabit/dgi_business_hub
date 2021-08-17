@@ -3,7 +3,7 @@ const router = express.Router();
 
 //------------------------------------------------------------------------
 
-const { loginUser, createMerchant, scanCode } = require("../apis/user");
+const { loginUser, createMerchant, scanCode, getAllMerchant, getMerchantDetailsById, approveMerchantById } = require("../apis/user");
 const { isUserAdmin, isUserThere } = require("../middleware");
 
 //------------------------------------------------------------------------
@@ -18,6 +18,9 @@ router.post(
 	createMerchant
 );
 router.post("/scan", isUserThere, scanCode);
+router.get("/all", getAllMerchant);
+router.get("/", getMerchantDetailsById);
+router.get("/approve", approveMerchantById);
 
 //------------------------------------------------------------------------
 

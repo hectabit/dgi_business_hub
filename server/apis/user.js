@@ -141,11 +141,11 @@ const createMerchant = async (req, res) => {
 		// send username and password to merchant
 		console.log("---", username, password, email);
 
-		await sendMail(
-			email,
-			"Your username and password",
-			`username:${username}<br>password:${password}`
-		);
+		// await sendMail(
+		// 	email,
+		// 	"Your username and password",
+		// 	`username:${username}<br>password:${password}`
+		// );
 
 		return res.status(resConfig.SUCCESS.status).send(resConfig.SUCCESS);
 	} catch (error) {
@@ -155,6 +155,84 @@ const createMerchant = async (req, res) => {
 			.send(resConfig.SERVER_ERROR);
 	}
 };
+
+const getAllMerchant = async (req, res, next) => {
+	try {
+		// get approve flag: true or false
+		const { approve } = req.query;
+
+		if (approve == "") {
+			return res
+				.status(resConfig.BAD_REQUEST.status)
+				.send(resConfig.BAD_REQUEST);
+		}
+
+		// find all merchants with approve flag
+		const merchants = await Merchant.find({ isApproved: approve }).lean();
+
+		const resPayload = { ...resConfig.SUCCESS };
+		resPayload.merchants = merchants;
+
+		return res.status(resConfig.SUCCESS.status).send(resPayload);
+	} catch (error) {
+		console.log("error in createMerchant", error);
+		return res
+			.status(resConfig.SERVER_ERROR.status)
+			.send(resConfig.SERVER_ERROR);
+	}
+}
+
+const getMerchantDetailsById = async (req, res, next) => {
+	try {
+		// get merchantId
+		const { merchantId } = req.query;
+
+		if (!merchantId) {
+			return res
+				.status(resConfig.BAD_REQUEST.status)
+				.send(resConfig.BAD_REQUEST);
+		}
+
+		// find all merchants with approve flag
+		const merchant = await Merchant.find({ _id: merchantId }).lean();
+
+		const resPayload = { ...resConfig.SUCCESS };
+		resPayload.merchant = merchant[0];
+
+		return res.status(resConfig.SUCCESS.status).send(resPayload);
+	} catch (error) {
+		console.log("error in createMerchant", error);
+		return res
+			.status(resConfig.SERVER_ERROR.status)
+			.send(resConfig.SERVER_ERROR);
+	}
+}
+
+const approveMerchantById = async (req, res, next) => {
+	try {
+		// get merchantId
+		const { merchantId } = req.query;
+
+		if (!merchantId) {
+			return res
+				.status(resConfig.BAD_REQUEST.status)
+				.send(resConfig.BAD_REQUEST);
+		}
+
+		// update merchant approve flag
+		await Merchant.findOneAndUpdate(
+			{ _id: merchantId },
+			{ $set: { isApproved: true }}
+		);
+
+		return res.status(resConfig.SUCCESS.status).send(resConfig.SUCCESS);
+	} catch (error) {
+		console.log("error in createMerchant", error);
+		return res
+			.status(resConfig.SERVER_ERROR.status)
+			.send(resConfig.SERVER_ERROR);
+	}
+}
 
 const scanCode = async (req, res) => {
 	try {
@@ -243,7 +321,7 @@ const scanCode = async (req, res) => {
 		// update the coupon data
 		await Coupon.findOneAndUpdate(
 			{ refNo: username },
-			{ $inc: { count: -1 }, $se	t: { lastTime: couponData.lastTime } }
+			{ $inc: { count: -1 }, $set: { lastTime: couponData.lastTime } }
 		);
 
 		// create a scan transaction
@@ -265,4 +343,4 @@ const scanCode = async (req, res) => {
 
 //------------------------------------------------------------------------
 
-module.exports = { loginUser, createMerchant, scanCode };
+module.exports = { loginUser, createMerchant, getAllMerchant, getMerchantDetailsById, approveMerchantById, scanCode };
