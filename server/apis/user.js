@@ -308,9 +308,10 @@ const scanCode = async (req, res) => {
       refNo: username,
     };
     if (isDiscountApplied) {
-      resSendObj.discount = await GiftCard.findOne({
+      let temp = await GiftCard.findOne({
         "giftCards.code": GiftCardCode,
-      }).select("_id");
+      }).lean();
+      resSendObj.discount = temp.giftCards[0].discount;
     }
     // create a scan transaction
     const SCANTRANSACTION = new ScanTransaction(resSendObj);
