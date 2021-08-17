@@ -3,8 +3,8 @@ const router = express.Router();
 
 //------------------------------------------------------------------------
 
-const { loginUser, createMerchant } = require("../apis/user");
-const { isUserAdmin } = require("../middleware");
+const { loginUser, createMerchant, scanCode } = require("../apis/user");
+const { isUserAdmin, isUserThere } = require("../middleware");
 
 //------------------------------------------------------------------------
 
@@ -12,9 +12,12 @@ const { isUserAdmin } = require("../middleware");
  * define routes
  */
 router.post("/login", loginUser);
-router.post("/create", 
-// isUserAdmin,
- createMerchant);
+router.post(
+	"/create",
+	// isUserAdmin,
+	createMerchant
+);
+router.post("/scan", isUserThere, scanCode);
 
 //------------------------------------------------------------------------
 

@@ -1,4 +1,5 @@
 const Login = require("../models/Login");
+const { decodeJwt } = require("../utils/crypto");
 const jwtKey = process.env.JWT_KEY;
 
 //------------------------------------------------------------------------
@@ -80,6 +81,51 @@ const isUserMerchant = async (req, res, next) => {
 	}
 };
 
+const isUserThere = async (req, res, next) => {
+	try {
+		let { authorization } = req.headers;
+
+		if (!authorization) {
+			return res.status(400).send({
+				status: 400,
+				message: "Authorization token not found",
+			});
+		}
+
+		authorization = authorization.split(" ").pop();
+
+		const payLoad = decodeJwt(authorization, jwtKey);
+
+		if (payLoad === -1) {
+			return res.status(201).send({
+				status: 201,
+				message: "Unauthorized user",
+			});
+		}
+
+		const data = { ...payLoad.data };
+		const username = data.username;
+		const userType = data.userType;
+
+		if (userType !== "user") {
+			return res.status(201).send({
+				status: 201,
+				message: "Unauthorized user",
+			});
+		}
+
+		req.custom = {};
+		req.custom.username = username;
+		next();
+	} catch (error) {
+		console.log("error", error);
+
+		res.locals.status = 500;
+		res.locals.data = { status: 500, message: "internal server error" };
+		return resMiddleware.sendRes(req, res);
+	}
+};
+
 //------------------------------------------------------------------------
 
-module.exports = { isUserAdmin, isUserMerchant };
+module.exports = { isUserAdmin, isUserMerchant, isUserThere };
