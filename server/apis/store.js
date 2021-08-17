@@ -176,7 +176,29 @@ const getTransaction = async (req, res) => {
       .send(resConfig.SERVER_ERROR);
   }
 };
+const getAllTransaction = async (req, res) => {
+  try {
+    const transactions = await ScanTransaction.find({})
+      .populate("discount")
+      .lean();
 
+    const resPayload = { ...resConfig.SUCCESS };
+    resPayload.transactions = transactions;
+
+    return res.status(resConfig.SUCCESS.status).send(resPayload);
+  } catch (error) {
+    console.log("error in get categories details", error);
+    return res
+      .status(resConfig.SERVER_ERROR.status)
+      .send(resConfig.SERVER_ERROR);
+  }
+};
 //------------------------------------------------------------------------
 
-module.exports = { getStores, createStore, getStore, getTransaction };
+module.exports = {
+  getStores,
+  createStore,
+  getStore,
+  getTransaction,
+  getAllTransaction,
+};

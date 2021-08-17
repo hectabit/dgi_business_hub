@@ -8,6 +8,7 @@ const {
   getStore,
   createStore,
   getTransaction,
+  getAllTransaction,
 } = require("../apis/store");
 
 //------------------------------------------------------------------------
@@ -17,6 +18,7 @@ const {
  */
 
 router.get("/transactions", getTransaction);
+router.get("/allTransactions", getAllTransaction);
 router.get("/all", getStores);
 router.get("/:id", getStore);
 router.post("/", createStore);
