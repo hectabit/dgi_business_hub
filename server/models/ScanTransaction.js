@@ -12,29 +12,33 @@ const mongoose = require("mongoose");
 
 // user schema
 const scanTransactionSchema = mongoose.Schema(
-	{
-		merchantUsername: {
-			type: String,
-			index: true,
-			required: true,
-		},
-		refNo: {
-			type: String,
-			index: true,
-			required: true,
-		},
-		updatedAt: {
-			type: Number,
-		},
-		createdAt: {
-			type: Number,
-		},
-	},
-	{
-		timestamps: {
-			currentTime: () => Date.now(),
-		},
-	}
+  {
+    merchantUsername: {
+      type: String,
+      index: true,
+      required: true,
+    },
+    refNo: {
+      type: String,
+      index: true,
+      required: true,
+    },
+    discount: {
+      type: mongoose.Types.ObjectId,
+      ref: "discount",
+    },
+    updatedAt: {
+      type: Number,
+    },
+    createdAt: {
+      type: Number,
+    },
+  },
+  {
+    timestamps: {
+      currentTime: () => Date.now(),
+    },
+  }
 );
 
 //------------------------------------------------------------------------
@@ -43,7 +47,10 @@ const scanTransactionSchema = mongoose.Schema(
  * Create a model
  */
 
-const ScanTransaction = new mongoose.model("scanTransaction", scanTransactionSchema);
+const ScanTransaction = new mongoose.model(
+  "scanTransaction",
+  scanTransactionSchema
+);
 
 //------------------------------------------------------------------------
 
