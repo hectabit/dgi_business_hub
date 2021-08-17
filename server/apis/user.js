@@ -13,6 +13,7 @@ const cryptoUtils = require("../utils/crypto");
 const { sendMail } = require("../utils/mail");
 const Coupon = require("../models/Coupon");
 const ScanTransaction = require("../models/ScanTransaction");
+const mongoose = require("mongoose");
 
 //------------------------------------------------------------------------
 
@@ -164,6 +165,7 @@ const scanCode = async (req, res) => {
     // get username and password
     const { merchantUsername, GiftCardCode } = req.body;
     const username = req.custom.username;
+    console.log("username", username);
 
     if (!merchantUsername || !username) {
       return res
@@ -381,8 +383,19 @@ const getMerchantDetailsById = async (req, res, next) => {
         .send(resConfig.BAD_REQUEST);
     }
 
+    let query = {};
+    if (mongoose.Types.ObjectId.isValid(merchantId)) {
+      query = {
+        _id: merchantId,
+      };
+    } else {
+      query = {
+        username: merchantId,
+      };
+    }
+
     // find all merchants with approve flag
-    const merchant = await Merchant.find({ _id: merchantId }).lean();
+    const merchant = await Merchant.find(query).populate("category").lean();
 
     const resPayload = { ...resConfig.SUCCESS };
     resPayload.merchant = merchant[0];
