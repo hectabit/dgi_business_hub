@@ -127,7 +127,7 @@ const createStore = async (req, res) => {
     // setting data
     const store = await Merchant.findOneAndUpdate(
       { username },
-      { $set: storeData },
+      { $set: { ...storeData, isApproved: false } },
       { new: true }
     ).lean();
 

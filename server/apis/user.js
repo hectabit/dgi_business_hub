@@ -165,7 +165,6 @@ const scanCode = async (req, res) => {
     // get username and password
     const { merchantUsername, GiftCardCode } = req.body;
     const username = req.custom.username;
-    console.log("username", username);
 
     if (!merchantUsername || !username) {
       return res
