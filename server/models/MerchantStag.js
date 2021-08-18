@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
  */
 
 // user schema
-const merchantSchema = mongoose.Schema(
+const merchantStagSchema = mongoose.Schema(
 	{
 		username: {
 			type: String,
@@ -122,7 +122,7 @@ const merchantSchema = mongoose.Schema(
  * Create a model
  */
 
-const Merchant = new mongoose.model("merchant", merchantSchema, "merchants");
+const merchantStag = new mongoose.model("merchantStag", merchantStagSchema);
 
 //------------------------------------------------------------------------
 
@@ -130,4 +130,4 @@ const Merchant = new mongoose.model("merchant", merchantSchema, "merchants");
  * export modules
  */
 
-module.exports = Merchant;
+module.exports = merchantStag;
