@@ -166,6 +166,8 @@ const scanCode = async (req, res) => {
     const { merchantUsername, GiftCardCode } = req.body;
     const username = req.custom.username;
 
+    console.log(merchantUsername, GiftCardCode, username);
+
     if (!merchantUsername || !username) {
       return res
         .status(resConfig.BAD_REQUEST.status)
@@ -193,6 +195,8 @@ const scanCode = async (req, res) => {
     const merchantData = await Merchant.findOne({
       username: merchantUsername,
     }).lean();
+
+    console.log(merchantData);
 
     if (!merchantData) {
       return res
@@ -321,7 +325,7 @@ const scanCode = async (req, res) => {
 
     return res.status(resConfig.SUCCESS.status).send(resConfig.SUCCESS);
   } catch (error) {
-    console.log("error in createMerchant", error);
+    console.log("error in scan", error);
     return res
       .status(resConfig.SERVER_ERROR.status)
       .send(resConfig.SERVER_ERROR);
