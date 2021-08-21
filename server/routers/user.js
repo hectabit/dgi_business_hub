@@ -11,6 +11,8 @@ const {
   getAllMerchant,
   getMerchantDetailsById,
   approveMerchantById,
+  disapproveMerchantById,
+  changeMerchantPassword,
 } = require("../apis/user");
 const { isUserAdmin, isUserThere } = require("../middleware");
 
@@ -23,6 +25,7 @@ router.get("/giftCards", isUserThere, getGiftCards);
 router.get("/all", getAllMerchant);
 router.get("/", getMerchantDetailsById);
 router.get("/approve", approveMerchantById);
+router.get("/disapprove", disapproveMerchantById);
 router.post("/login", loginUser);
 router.post(
   "/create",
@@ -30,6 +33,7 @@ router.post(
   createMerchant
 );
 router.post("/scan", isUserThere, scanCode);
+router.post("/changePassword", changeMerchantPassword);
 
 //------------------------------------------------------------------------
 
