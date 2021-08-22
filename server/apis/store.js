@@ -84,7 +84,7 @@ const createStore = async (req, res) => {
 
     console.log(storeData);
 
-    // uploading 3 images
+    // uploading 5 images
     const adType = "jpg";
     if (storeData.images[0] != "") {
       const storeBase64One = new Buffer.from(

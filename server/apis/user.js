@@ -364,7 +364,7 @@ const getAllMerchant = async (req, res, next) => {
     const modal = approve === "true" ? Merchant : MerchantStag;
 
     // find all merchants with approve flag
-    const merchants = await modal.find({}).lean();
+    const merchants = await modal.find({}).populate("category").lean();
 
     const resPayload = { ...resConfig.SUCCESS };
     resPayload.merchants = merchants;
