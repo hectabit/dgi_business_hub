@@ -43,9 +43,6 @@ const merchantStagSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
-      index: true,
-      unique: true,
     },
     businessName: {
       type: String,
